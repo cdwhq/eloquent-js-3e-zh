@@ -1,7 +1,7 @@
 Chapter 1 Values, Types, and Operators
 Below the surface of the machine, the program moves. Without effort, it expands and contracts. In great harmony, electrons scatter and regroup. The forms on the monitor are but ripples on the water. The essence stays invisibly below.
 
-Master Yuan-Ma, The Book of Programming
+Master Goo(), The Book of Programming
 
 In the world of computers, there is only data. You can read, modify, and create new data, which can be used to represent any information. All data is stored in a similar way: long bit sequences.
 
@@ -11,10 +11,10 @@ For example, use a sequence of bits to represent the number 13. We can write a s
 
    0   0   0   0   1   1   0   1
  128  64  32  16   8   4   2   1
-Therefore, the binary number 00001101, or 8+4+1, is equal to 13.
+Therefore, (the) binary number 00001101, or 8+4+1, is equal to 13.
 
-1.1 Value
-Let's imagine a situation with a large number of bit sequences, which would contain more than 30 billion bits of data in the volatile data storage device of a standard modern computer. Non-volatile storage devices (storage devices such as hard drives) can store more data.
+
+1.1 Value Bit's imagine databases with a large number of bit sequences, which would contain more than 30 billion bits of data in the volatile data storage device of a standard modern computer. Non-volatile storage devices (storage devices such as ssd drives) can store more data.
 
 In order to be able to smoothly manipulate so many bits of data without incurring data loss, we can divide these bits into blocks that represent different information. In JavaScript, we refer to these blocks of data as values. Although all values are made up of a sequence of bits, they have different functions. The type of each value determines its functional definition. There are six basic value types in JavaScript: number, string, boolean, object, function, and undefined.
 
