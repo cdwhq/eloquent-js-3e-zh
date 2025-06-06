@@ -1,0 +1,225 @@
+Chapter 1 Values, Types, and Operators
+Below the surface of the machine, the program moves. Without effort, it expands and contracts. In great harmony, electrons scatter and regroup. The forms on the monitor are but ripples on the water. The essence stays invisibly below.
+
+Master Yuan-Ma, The Book of Programming
+
+In the world of computers, there is only data. You can read, modify, and create new data, which can be used to represent any information. All data is stored in a similar way: long bit sequences.
+
+We usually use binary values (0 and 1) to represent bits. In computers, bits can be represented by a high or low charge, a strong signal or a weak signal, or a bump on the surface of a disc. Any discrete information can be reduced to a sequence of 0s and 1s, so that this information can be represented as a bitwise sequence.
+
+For example, use a sequence of bits to represent the number 13. We can write a sequence of digits in the same way as a decimal number, but instead of ten different numbers, we use two. The weights of the numbers are incremented from right to left with a factor of 2. Here is the number 13 represented by a sequence of bits, with the weight of the bit below each digit:
+
+   0   0   0   0   1   1   0   1
+ 128  64  32  16   8   4   2   1
+Therefore, the binary number 00001101, or 8+4+1, is equal to 13.
+
+1.1 Value
+Let's imagine a situation with a large number of bit sequences, which would contain more than 30 billion bits of data in the volatile data storage device of a standard modern computer. Non-volatile storage devices (storage devices such as hard drives) can store more data.
+
+In order to be able to smoothly manipulate so many bits of data without incurring data loss, we can divide these bits into blocks that represent different information. In JavaScript, we refer to these blocks of data as values. Although all values are made up of a sequence of bits, they have different functions. The type of each value determines its functional definition. There are six basic value types in JavaScript: number, string, boolean, object, function, and undefined.
+
+The Ocean of Bits
+
+When creating a value, you only need to call its name, which is very convenient. We don't need to know the type of newly created value in advance or pre-create storage space for it, we just call a value and get it instantly. Of course, these values are not created in a vacuum, and each value always has a place to store it, and if you want to store a large amount of value data at the same time, you may run out of memory space. Luckily, this problem only happens if you need that much data at the same time. If you no longer need to use a value, the data corresponding to that value is cleaned and recycled for other values to use.
+
+This chapter will introduce the basic elements of a JavaScript program, including simple value types and value operators.
+
+1.2 Numbers
+A value of type number is a numeric value. In JavaScript, it is written as follows:
+
+13
+When this value is used in a program, the number 13 is stored in the computer's memory as a sequence of bits.
+
+JavaScript uses a fixed length of 64 bits to store numeric values. We can only use a 64-bit memory sequence to produce a certain number of combinations, so the number of numbers that can be represented is also limited. For decimal numbers, if there are N digits in length, then we can use it to represent 10<sup class="calibre3">N</sup> digits. In the same way, for binary numbers, if there are 64 bits in length, it can represent 2<sup class="calibre3">64</sup> numbers, which is about 180 billion (18 followed by 18 zeros), which is already quite a large number.
+
+In the past, computers had much smaller memory capacities than they do today, so it was common to use sequences of bits of 8 or 16 to represent numbers. In such a small range it is easy for numbers to overflow, i.e. a given sequence of bits cannot store numbers beyond this range. Nowadays, even personal computers are equipped with a lot of memory, so we don't have a problem using 64-bit blocks of data to store numbers, which means that we don't have to worry about overflowing when dealing with very large numbers.
+
+But you can't use all numbers less than 180 billion in JavaScript. This 64-length bit sequence also needs to be able to represent negative numbers, so there needs to be a sign bit to represent the positive and negative of the number. Another issue that we need to focus on is how to represent non-integers, and in order to do that, we also need to use some bits to store the position of the decimal point. Therefore, the actual range of numbers that can be stored in JavaScript is 1900 trillion (9 followed by 15 zeros), which is still a large number.
+
+Use a decimal point to represent a fraction.
+
+9.81
+For numbers that are too large or too small, they can be represented using the scientific and technical method with e (i.e., exponent, exponent) and immediately followed by the exponent of the number.
+
+2.998e8
+That is, 2.998×10<sup class="calibre3">8</sup>=299,800,000.
+
+When calculating an integer smaller than the 9,000 trillion mentioned above, the result will be very accurate, but it will not be as accurate when calculating decimals. Just as (pi) cannot be represented with a finite number of decimal numbers, there is also some loss of precision when using 64 bits to store fractions. That being said, this loss of accuracy is only problematic in some special cases. Therefore, we need to be careful to treat fractions as approximate rather than exact.
+
+1.2.1 Arithmetic
+Closely related to numbers is arithmetic. For example, arithmetic operations such as addition or multiplication use two numeric values and produce a new number. The arithmetic operation in JavaScript looks like this:
+
+100 + 4 * 11
+我们把“+”和“*”符号称为运算符。第一个符号表示加法，第二个符号表示乘法。将一个运算符放在两个值之间，该运算符将会使用其旁边的两个值产生一个新值。
+
+在上述示例当中是“4加100，再将加的结果乘以11”，还是先做乘法再做加法？如你所想，这里会先做乘法。但在数学运算中，我们可以将加法用括号括起来，改变运算次序。
+
+(100 + 4) * 11
+The "–" operator represents subtraction, while the "/" operator represents division.
+
+In cases where operators occur at the same time, and there are no parentheses, the order of operations is determined according to the operator precedence. The multiplication operator in the example takes precedence over addition. The "/" and "*" operators have the same precedence, and the "+" and "–" operators have the same precedence. When multiple operators with the same priority appear next to each other, the operation is performed from left to right, e.g. 1–2+1 is in the order (1–2)+1.
+
+You don't need to worry about the precedence rules for these operators, you just need to add parentheses if you're unsure.
+
+The "%" symbol represents the remainder operation, an arithmetic operator that the reader may not be familiar with. X%Y is the remainder of X divided by Y. For example, 314% of 100 results in 14, and 144% of 12 results in 0. The precedence of the remainder operator is the same as multiplication and division. This operator is often referred to as a modular-numeric operator, but it should be called a remainder operator to be precise.
+
+1.2.2 Special Numbers
+There are three special values in JavaScript that, although they are numbers, look different from normal numbers.
+
+The first two are Infinity and -Infinity, which represent positive infinity and negative infinity, respectively. The result of Infinity-1 is still Infinity, and so on. Don't rely too much on the results of infinite operations, because such operations are not really mathematical, which leads us to the next special number: NaN.
+
+Although NaN is a numeric value, we use it to represent a "non-numeric value". For example, NaN is used to calculate 0/0 (0 divided by 0), Infinity – Infinity, or when numerical operations produce imprecise or meaningless results.
+
+1.3 Strings
+Another basic data type is strings, which we use to represent textual information. Use quotation marks to enclose the content.
+
+"Patch my boat with chewing gum"
+'Monkeys wave goodbye'
+Both single and double quotes can be used to mark strings, as long as the quotation marks are consistent.
+
+We can fill in almost any character in quotation marks, and JavaScript will use these characters to generate strings. However, some characters are a little more complicated to fill in. For example, putting quotation marks in quotation marks is more troublesome. Also, since strings can only fit on one line, line breaks (the characters generated by entering the enter key) cannot be placed between quotation marks.
+
+To deposit these characters in a string, you need to use the following rules: When a backslash (\) appears in text between quotation marks, it means that the character immediately following it has a special meaning, which we call an escape. When a quote is immediately followed by a backslash, it does not mean that the string ends, but rather that the quote is part of the string. When the character n appears after a backslash, JavaScript interprets it as a line break. By analogy, where \t is the tab, let's take a look at the following string:
+
+"This is the first line\nAnd this is the second"
+The text that the string actually represents is:
+
+This is the first line
+And this is the second
+Of course, sometimes you want the backslash in the string to represent the backslash itself, not a special character. You can use two consecutive backslashes to represent a single backslash, leaving only one backslash in the final string value. Therefore, the string "A newline character is written like" \n"" can be written as:
+
+"A newline character is written like \"\\n\"."
+We can't use division, multiplication, or subtraction operators for strings, but the "+" operator can. In this case, the operator does not represent addition, but rather a concatenation operation: concatenating two strings together. The following statement can result in the string "concatenate":
+
+"con" + "cat" + "e" + "nate"
+There are many other ways to manipulate strings, which we'll discuss in Chapter 4.
+
+1.4 Unary Operators
+Not all operators are represented by symbols, and some are represented by words. The typeof operator, for example, produces the value of a string of specific types for a given value.
+
+console.log(typeof 4.5)
+// → number
+console.log(typeof "x")
+// → string
+我们会在示例代码中使用console.log命令来打印并表示我们需要查看的一些运算结果。当你执行了这段代码后，屏幕上就会显示出运算产生的值，而如何显示结果则取决于执行程序所使用的JavaScript环境。
+
+The vast majority of operators we've seen operate with two values, and typeof only accepts one value to operate. Operators that use two values are called binary operators, while operators that use one value are called unary operators. The minus operator can be used as both a unary and a binary operator.
+
+console.log(- (10 - 2))
+// → -8
+1.5 Boolean
+We often need to use a value to simply distinguish between two possibilities, such as "yes" and "no" and "on" and "off". JavaScript uses Boolean types to represent this situation, and there are only two possible values for this type: true and false (which are the words used for this).
+
+1.5.1 Comparison
+One way to generate a Boolean value is as follows:
+
+console.log(3 > 2)
+// → true
+console.log(3 < 2)
+// → false
+The ">" and "<" symbols represent "greater than" and "less than", respectively. These two symbols are binary operators, and the result returned by the operator is a Boolean value that indicates whether its operation is true or not.
+
+We can use the same method to compare strings.
+
+console.log("Aardvark" < "Zoroaster")
+// → true
+String comparisons are made in alphabetical order, with uppercase letters always being "less than" lowercase letters, so "Z" < "a" are true, and non-alphabetic characters are included in the character order (e.g., !). , –, etc.). In fact, the comparison of characters is based on the Unicode standard. The standard assigns a number to each character you need, including Greek, Arabic, Japanese, and Tamil, among others. Using these numbers helps to store strings in a computer, because then we can map the characters to the numbers one by one and store the strings as sequences of numbers. When comparing strings, JavaScript compares the number encoding of each character from left to right.
+
+Other similar operators include >=(greater than or equal to), <= (less than or equal to), == (equal to), and ! = (not equal).
+
+console.log("Itchy" != "Scratchy")
+// → true
+In JavaScript, there is only one value that is not equal to itself, and that is NaN (Not a Number).
+
+console.log(NaN == NaN)
+// → false
+NaN is used to denote the result of an illegal operation, and because of this, the results of different illegal operations will not be equal.
+
+1.5.2 Logical Operators
+There are also operators that can be applied to Boolean values. JavaScript supports three logical operators: AND (and), OR (or) and non (not). These operators can be used to reason about boolean values.
+
+The &&& operator represents logical and, which is a binary operator and the result is true only if both values assigned to it are true.
+
+console.log(true && false)
+// → false
+console.log(true && true)
+// → true
+|| The operator represents a logical or. When either of the two values is true, the result is true.
+
+console.log(false || true)
+// → true
+console.log(false || false)
+// → false
+Exclamation mark (!) ) represents logical non, which is a unary operator that inverts a given value, such as ! True results in false, and ! false turns out to be true.
+
+In the case of a mix of Boolean operators and other operators, it is always difficult to determine when you need to use parentheses. In fact, as long as you are familiar with the operators we have introduced so far, this problem is not difficult to solve The priority is the lowest, followed by &&, followed by the comparison operators (>, ==, etc.), and finally the other operators. Based on these priorities, it's generally best to use as few parentheses as possible, such as:
+
+1 + 1 == 2 && 10 * 10 > 50
+Now let's talk about the last logical operator, which is neither a unary nor a binary operator, but a ternary operator (which operates three values at the same time). The operator consists of a question mark and a colon, as shown below.
+
+console.log(true ? 1 : 2);
+// → 1
+console.log(false ? 1 : 2);
+// → 2
+This operator is called a conditional operator (or a ternary operator, because there is only one ternary operator in the JavaScript language). The conditional operator picks one of the remaining two values as the result based on the truth of the condition to the left of the question mark. Select the middle value when the condition is true, and select the value on the right when the condition is false.
+
+1.6 Undefined Values
+There are two special values here, null and undefined, which are used to represent meaningless values. They each have their own meaning and do not contain any information beyond that.
+
+In JavaScript, there are many operations that produce meaningless values (as we'll see later in this article) that get undefined results simply because each operation has to produce a value.
+
+Problems with the design of the JavaScript language have led to slight differences between the meanings of undefined and null, which in most cases are insignificant. If you have a special case where you have to distinguish between these two values, then my advice is to treat them as interchangeable (more on that later).
+
+1.7 Automatic Type Conversion
+At the beginning of the book, I mentioned that JavaScript can handle any program, even if it behaves in an unpredictable way. We can see this by the following expression:
+
+console.log(8 * null)
+// → 0
+console.log("5" - 1)
+// → 4
+console.log("5" + 1)
+// → 51
+console.log("five" * 2)
+// → NaN
+console.log(false == 0)
+// → true
+When an operator is applied to the value of an error type, JavaScript automatically converts it to the type it wants, but the rules often go against the original purpose of the code. This is called casting. Thus, the null in the first expression becomes 0, and the "5" in the second expression becomes 5 (converting the string to a number). In the third expression, the "+" operator attempts to concatenate strings instead of adding numbers, thus converting 1 to "1" (converting numbers to strings).
+
+When some values cannot be explicitly converted to numbers (e.g. "five" or undefined), NaN is generated. The result of the operation containing NaN is still NaN, so if you accidentally find that you get a NaN result, check to see if an incorrect type conversion has occurred.
+
+When values of the same type are compared using the "==" symbol, the result is predictable: except in the case of NaN, as long as the two values are the same, it returns true. However, if the types are different, JavaScript uses a complex set of rules to determine the output. In the vast majority of cases, JavaScript simply converts one value into another value. However, if there is null or undefined on both sides of the operator, the result will only be true if both sides are null or undefined.
+
+console.log(null == undefined);
+// → true
+console.log(null == 0);
+// → false
+The last point mentioned above is actually very useful. When we want to determine whether a value is true and not null or undefined, we just use "==" (or "!) =")operator.
+
+But what happens when you want to test if a value is strictly equal to false? The Boolean conversion rules for strings and numbers are as follows: JavaScript treats 0, NaN, and empty strings (") as false, and other values as true. Therefore, expressions such as 0==false and ""==false" are true. In this case, if we don't want any automatic type conversion at the time of comparison, we can use two other operators: === and ! ==。 The first operator is used to detect whether two values are strictly equal, and the second operator is used to test whether they are strictly unequal. So the result of ""===false is false, as we expected.
+
+I recommend using a three-character comparison operator to prevent accidental type conversions from happening and avoid being cocooned. But if the value type on both sides of the comparison operator is the same, then it's okay to use a shorter operator.
+
+The short-circuit characteristic of logical operators
+
+The logical operators &&& || There is a special way to handle different types of values. These two operators convert the value on the left to a Boolean type to determine what to do next, but whether the value on the left or the value on the right depends on the operator and the result of the transformation on the left.
+
+For example, when the left-hand value can be converted to true, || The operator returns the value directly on the left, otherwise it returns the value on the right. This conversion comes in handy when you want to handle other types of values in the same way as Booleans.
+
+console.log(null || "user")
+// → user
+console.log("Karl" || "user")
+// → Karl
+|| This feature of the operator can be used to return a default value. If the expression on the left might produce a null value, then the expression on the right can be substituted if the expression on the left is empty.
+
+The &&& operator works similarly but not the same way as it. When the value on the left can be converted to false, the &&& operator returns the value on the left, otherwise the value on the right.
+
+Another important feature of these two operators is that the expression on the right is evaluated only when necessary. With true|| X, for example, no matter what X is, even if X does some terrible thing, the result is true, and X is never calculated. The same is true for false&&X, as long as the left side is false, X will be ignored. This is known as a short-circuit calculation.
+
+Conditional operators work in a similar way. The first expression will always be evaluated, but the second or third expression will only be evaluated if it is selected.
+
+1.8 Chapter Summary
+In this chapter, we cover the four types of values for JavaScript: numeric, string, boolean, and undefined.
+
+You can create them by entering the name of the value (true, null) or the value (13, "abc"). You can also use operators to merge and convert values. The arithmetic binary operators (+, –, *, /, and %), string connectors (+), and comparison operators (==, !) have already been introduced in this chapter. =、===、！ ==, <, >, <=, and >=), logical operators (&&& || ) and some unary operators (– for negative numbers, !) Indicates logical non, typeof is used to query the type of value).
+
+With this knowledge, you can write a mini calculator, but that's about it. In the next chapter, we're going to apply these expressions to a basic program.
