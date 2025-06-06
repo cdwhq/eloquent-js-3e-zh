@@ -1,0 +1,6 @@
+console.log(next.parcels);
+// → []
+console.log(first.place);
+console.log(b.has("a"));
+// → false
+```
